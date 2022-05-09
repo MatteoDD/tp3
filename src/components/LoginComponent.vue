@@ -8,6 +8,7 @@
           id="email"
           name="email"
           placeholder="courriel@courriel.com"
+          v-model="newProfile.email"
         /><br />
         <input
           type="text"
@@ -15,17 +16,39 @@
           id="password"
           name="password"
           placeholder="********"
+          v-model="newProfile.password"
         /><br />
-        <button type="submit" class="btn btn-primary">Se connecter</button>
+        <button type="button" class="btn btn-primary" @click="login">Se connecter</button>
       </form>
       <br />
       <router-link to="/signup">Créer un compte</router-link>
     </div>
   </div>
 </template>
-
 <script>
-export default {}
+export default {
+  name: 'LoginComponent',
+  data () {
+    return {
+      newProfile: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    login () {
+      // this.$store.dispatch('login', {
+      //   email: this.email,
+      //   password: this.password
+      // }),
+      this.$store.dispatch('profiles/loginV2', {
+        email: this.newProfile.email,
+        password: this.newProfile.password
+      })
+    }
+  }
+}
 </script>
 
 <style lang="css" scoped>
