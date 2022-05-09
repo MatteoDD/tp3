@@ -14,7 +14,7 @@
           class="form-control"
           id="password"
           name="password"
-          placeholder="********"
+          placeholder="******"
         /><br />
         <button type="submit" class="btn btn-primary">Se connecter</button>
       </form>

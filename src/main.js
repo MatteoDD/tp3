@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -20,6 +21,10 @@ L.Icon.Default.mergeOptions({
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(uiTextPlugin)
+
+Vue.component('l-map', LMap)
+Vue.component('l-tile-layer', LTileLayer)
+Vue.component('l-marker', LMarker)
 
 Vue.config.productionTip = false
 
