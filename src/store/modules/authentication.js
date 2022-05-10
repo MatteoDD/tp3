@@ -34,11 +34,13 @@ const mutations = {
 
 const actions = {
   async login ({ commit }, credential) {
-    try {
-      const token = await authService.getToken(credential)
-      commit('initializeAuthentication', token)
-    } catch (error) {
-      commit('setAuthServiceError', error.message)
+    if (credential.email !== '' || credential.password !== '') {
+      try {
+        const token = await authService.getToken(credential)
+        commit('initializeAuthentication', token)
+      } catch (error) {
+        commit('setAuthServiceError', error.message)
+      }
     }
   },
   logout ({ commit }) {

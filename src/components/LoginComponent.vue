@@ -37,15 +37,19 @@ export default {
     }
   },
   methods: {
-    login () {
-      // this.$store.dispatch('login', {
-      //   email: this.email,
-      //   password: this.password
-      // }),
-      this.$store.dispatch('profiles/loginV2', {
+    async login () {
+      await this.$store.dispatch('authentication/login', {
         email: this.newProfile.email,
         password: this.newProfile.password
       })
+      if (this.isLogged) {
+        this.$store.dispatch('profiles/getProfile')
+      }
+    }
+  },
+  computed: {
+    isLogged () {
+      return this.$store.getters['authentication/isLoggedIn']
     }
   }
 }

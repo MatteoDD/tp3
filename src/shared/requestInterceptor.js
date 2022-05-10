@@ -3,11 +3,11 @@ import store from '../store/index'
 
 const requestInterceptor = axios.create({})
 
-requestInterceptor.interceptors.request.use(request => {
-  if (store.getters['authentification/isLoggedIn']) {
-    request.headers.Authorization = `Bearer ${store.state.authentification.token}`
+requestInterceptor.interceptors.request.use(req => {
+  if (store.getters['authentication/isLoggedIn']) {
+    req.headers.authorization = `Bearer ${store.state.authentication.token}`
   }
-  return request
+  return req
 })
 
 export default requestInterceptor
