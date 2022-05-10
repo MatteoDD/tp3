@@ -8,24 +8,51 @@
           id="email"
           name="email"
           placeholder="courriel@courriel.com"
+          v-model="newProfile.email"
         /><br />
         <input
           type="text"
           class="form-control"
           id="password"
           name="password"
-          placeholder="******"
+          placeholder="********"
+          v-model="newProfile.password"
         /><br />
-        <button type="submit" class="btn btn-primary">Se connecter</button>
+        <button type="button" class="btn btn-primary" @click="login">Se connecter</button>
       </form>
       <br />
       <router-link to="/signup">Créer un compte</router-link>
     </div>
   </div>
 </template>
-
 <script>
-export default {}
+export default {
+  name: 'LoginComponent',
+  data () {
+    return {
+      newProfile: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    async login () {
+      await this.$store.dispatch('authentication/login', {
+        email: this.newProfile.email,
+        password: this.newProfile.password
+      })
+      if (this.isLogged) {
+        this.$store.dispatch('profiles/getProfile')
+      }
+    }
+  },
+  computed: {
+    isLogged () {
+      return this.$store.getters['authentication/isLoggedIn']
+    }
+  }
+}
 </script>
 
 <style lang="css" scoped>
