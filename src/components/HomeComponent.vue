@@ -3,7 +3,7 @@
     <div class="container">
       <div class="Park form-group col-lg-2">
          <select style="width: 150px" onchange="onChangePark(this.value)" class="custom-select center" id="listPark" v-model="selectedPark">
-            <option v-for="park in parks" :key="park.id" :value="park">
+            <option v-for="park in fetchParkList" :key="park.id" :value="park">
               {{ park.name }}</option
             >
           </select>
@@ -25,21 +25,13 @@
 </template>
 
 <script>
-import { trailService } from '../services/trailService.js'
-
 export default {
   async created () {
-    this.parks = []
-    this.trails = []
-    try {
-      this.parks = await trailService.getParks()
-      this.trails = await trailService.getTrails()
-    } catch {}
+    this.$store.dispatch('park/initializeParks')
+    this.$store.dispatch('park/initializeTrails')
   },
   data () {
     return {
-      parks: [],
-      trails: [],
       selectedPark: [],
       selectedTrail: [],
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -58,7 +50,10 @@ export default {
   },
   computed: {
     filteredList: function () {
-      return this.trails.filter(x => x.parkId === this.selectedPark.id)
+      return this.$store.getters['park/getTrailList'].filter(x => x.parkId === this.selectedPark.id)
+    },
+    fetchParkList: function () {
+      return this.$store.getters['park/getParkList']
     }
   }
 }

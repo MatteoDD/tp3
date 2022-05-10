@@ -1,32 +1,40 @@
-import trailService from '../../services/trailService.js'
-import tokenHelper from '@/shared/tokenHelper'
+import trailService from '@/services/trailService.js'
 
 const state = {
-parkList: [],
-trailList : [],
-selectedPark: 0
+  parkList: [],
+  trailList: [],
+  selectedPark: {}
 }
 
 const getters = {
-async getParkList() {
-    try {
-        parkList = await trailService.getParks()
-    } 
-    catch {}  
-},
-async getTrailList() {
-    try{
-        trailList = await trailService.getTrails()
-    }
-    catch{}
+  getParkList (state) {
+    return state.parkList
+  },
+  getTrailList (state) {
+    return state.trailList
+  }
 }
 
-}
 const mutations = {
+  async buildParkList (state) {
+    state.parkList = await trailService.getParks()
+  },
+  async buildTrailList (state) {
+    state.trailList = await trailService.getTrails()
+  }
 }
 
 const actions = {
-  
+  initializeParks ({ commit }) {
+    try {
+      commit('buildParkList')
+    } catch {}
+  },
+  initializeTrails ({ commit }) {
+    try {
+      commit('buildTrailList')
+    } catch {}
+  }
 }
 
 export default {
