@@ -44,6 +44,7 @@ export default {
       })
       if (this.isLogged) {
         this.$store.dispatch('profiles/getProfile')
+        this.$router.push('/')
       }
     }
   },

@@ -25,6 +25,9 @@ const mutations = {
   },
   async profileSetup (state, profileToSet) {
     state.profile = profileToSet
+  },
+  async remouveCurrentUser (state) {
+    state.profile = {}
   }
 }
 
@@ -40,6 +43,9 @@ const actions = {
   },
   async createProfile ({ commit }, profile) {
     await commit('initializeProfileTry', profile)
+  },
+  async resetProfile ({ commit }) {
+    commit('remouveCurrentUser')
   }
 }
 

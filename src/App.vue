@@ -1,13 +1,25 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/signup">Signup</router-link>
+      <router-link to="/">Home |</router-link>
+      <router-link to="/login" v-if="!logged"> Login |</router-link>
+      <router-link to="/signup" v-if="!logged"> Signup |</router-link>
+      <router-link to="/logout" v-if="logged"> Déconnexion</router-link>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  computed: {
+    logged () {
+      return this.$store.getters['authentication/isLoggedIn']
+    }
+  }
+}
+</script>
 
 <style>
 #app {
