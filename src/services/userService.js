@@ -11,16 +11,6 @@ async function getUserById (userId) {
   }
 }
 
-// async function getUserAuth (user) {
-//   try {
-//     console.log('getUserById')
-//     const response = await requestInterceptor.post(`${API}/api/login`, user)
-//     return response.data
-//   } catch (error) {
-//     throw parseAxiosErrorToAppError(error)
-//   }
-// }
-
 async function setUser (user) {
   try {
     const response = await requestInterceptor.post(`${API}/api/register`, user)
@@ -33,5 +23,4 @@ async function setUser (user) {
 export const userService = {
   getUserById,
   setUser
-  // getUserAuth
 }

@@ -43,6 +43,16 @@ const actions = {
       }
     }
   },
+  async register ({ commit }, profile) {
+    if (profile.email !== '' && profile.password !== '' && profile.name !== '') {
+      try {
+        const token = await authService.register(profile)
+        commit('initializeAuthentication', token)
+      } catch (error) {
+        commit('setAuthServiceError', error.message)
+      }
+    }
+  },
   logout ({ commit }) {
     commit('logout')
   }
