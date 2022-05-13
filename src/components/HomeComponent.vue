@@ -2,12 +2,12 @@
   <div>
     <div class="container">
       <div class="Park form-group col-lg-2">
-         <select style="width: 150px" onchange="onChangePark(this.value)" class="custom-select center" id="listPark" v-model="selectedPark">
+         <select style="width: 150px" @change="onChangePark" class="custom-select center" id="listPark" v-model="selectedPark">
             <option v-for="park in fetchParkList" :key="park.id" :value="park">
               {{ park.name }}</option
             >
           </select>
-          <select style="width:150px" onchange="onChangePark(this.value)" class="custom-select center" id="listTrail">
+          <select style="width:150px" @change="onChangeTrail" class="custom-select center" id="listTrail" v-model="selectedTrail">
             <option v-for="trail in filteredList" :key="trail.id" :value="trail">
               {{ trail.name }}</option
             >
@@ -34,6 +34,7 @@ export default {
     return {
       selectedPark: [],
       selectedTrail: [],
+      likesFromProfile: [],
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -41,11 +42,17 @@ export default {
     }
   },
   methods: {
-    onChangePark (event) {
-      this.selectedPark = event.target.value
+    onChangePark () {
     },
-    onChangeTrail (event) {
-      this.selectedTrail = event.target.value
+    async onChangeTrail () {
+      if (this.isLogedIn) {
+        // voir like dans devtool
+        this.$store.dispatch('likes/initializeLikes', this.profileId)
+        this.likesFromProfile = await this.$store.getters['likes/getLikes']
+        if (this.isLogedIn) {
+          this.$store.dispatch('likes/like', this.newLike)
+        }
+      }
     }
   },
   computed: {
@@ -54,6 +61,25 @@ export default {
     },
     fetchParkList: function () {
       return this.$store.getters['park/getParkList']
+    },
+    isLogedIn: function () {
+      return this.$store.getters['authentication/isLoggedIn']
+    },
+    selectedParkId: function () {
+      return this.selectedPark.id
+    },
+    selectedTrailId: function () {
+      return this.selectedTrail.id
+    },
+    profileId: function () {
+      return this.$store.getters['profiles/getProfile'].id
+    },
+    newLike: function () {
+      const newLike = {
+        parkId: this.selectedParkId,
+        trailId: this.selectedTrailId + ''
+      }
+      return newLike
     }
   }
 }

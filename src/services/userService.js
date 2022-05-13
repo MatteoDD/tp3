@@ -20,7 +20,30 @@ async function setUser (user) {
   }
 }
 
+async function sendLike (like) {
+  try {
+    const response = await requestInterceptor.post(`${API}/api/likes`, {
+      userId: like.userId,
+      trailId: like.trailId
+    })
+    return response.data
+  } catch (error) {
+    throw parseAxiosErrorToAppError(error)
+  }
+}
+
+async function getLikes (userId) {
+  try {
+    const response = await requestInterceptor.get(`${API}/api/users/${userId}/likes`)
+    return response.data
+  } catch (error) {
+    throw parseAxiosErrorToAppError(error)
+  }
+}
+
 export const userService = {
   getUserById,
-  setUser
+  setUser,
+  sendLike,
+  getLikes
 }

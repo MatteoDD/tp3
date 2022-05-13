@@ -32,11 +32,11 @@ content-type: application/json
 ####################################################################
 # Info sur un utilisateur
 GET http://localhost:3000/api/users/99999
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2MTk0NzA0NTIsImV4cCI6MTYxOTQ3NDA1Miwic3ViIjoiOTk5OTkifQ.VzbKkMZSXLvfJBt6VM_yyvjFWaz9VUvIoSUXVOsIWhU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2NTIzOTY0NzgsImV4cCI6MTY1MjQwMDA3OCwic3ViIjoiOTk5OTkifQ.acbEm2pqa0xbaDS5iZv75XGSspmloAe4EjbXrrHWtnY
 
 ### Les "j'aime" d'un utilisateur  
 GET http://localhost:3000/api/users/99999/likes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2MTk0NzA0NTIsImV4cCI6MTYxOTQ3NDA1Miwic3ViIjoiOTk5OTkifQ.VzbKkMZSXLvfJBt6VM_yyvjFWaz9VUvIoSUXVOsIWhU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2NTI0MDA2MjQsImV4cCI6MTY1MjQwNDIyNCwic3ViIjoiOTk5OTkifQ.9ueZm61wo7IGDfLt3G6CvNCxYUyNlHDBe-Yh8_ZFssM
 
 
 ####################################################################
@@ -45,7 +45,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAd
 
 ### Ajouter un "j'aime" à un utilisateur 
 POST http://localhost:3000/api/likes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2MTk0NzA0NTIsImV4cCI6MTYxOTQ3NDA1Miwic3ViIjoiOTk5OTkifQ.VzbKkMZSXLvfJBt6VM_yyvjFWaz9VUvIoSUXVOsIWhU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2NTI0MDM5NDAsImV4cCI6MTY1MjQwNzU0MCwic3ViIjoiOTk5OTkifQ.xjJAYi4nWu54n9-Ncy8e9u9FKVV1VcCKJxgLhBaPtjc
 content-type: application/json
 
 {
@@ -54,5 +54,5 @@ content-type: application/json
 }
 
 ### supprimer un "j'aime" d'un utilisateur 
-DELETE  http://localhost:3000/api/likes/996
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2MTk0NzA0NTIsImV4cCI6MTYxOTQ3NDA1Miwic3ViIjoiOTk5OTkifQ.VzbKkMZSXLvfJBt6VM_yyvjFWaz9VUvIoSUXVOsIWhU
+DELETE  http://localhost:3000/api/likes/962
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2NTIzOTY0NzgsImV4cCI6MTY1MjQwMDA3OCwic3ViIjoiOTk5OTkifQ.acbEm2pqa0xbaDS5iZv75XGSspmloAe4EjbXrrHWtnY
