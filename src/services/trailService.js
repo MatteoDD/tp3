@@ -1,17 +1,23 @@
 import { API } from '@/shared/config'
-import axios from 'axios'
+import requestInterceptor from '../shared/requestInterceptor'
 
 async function getTrails () {
-  const response = await axios.get(`${API}/trails`)
+  const response = await requestInterceptor.get(`${API}/trails`)
   return response.data
 }
 
 async function getParks () {
-  const response = await axios.get(`${API}/parks`)
+  const response = await requestInterceptor.get(`${API}/parks`)
+  return response.data
+}
+
+async function getSegment (id) {
+  const response = await requestInterceptor.get(`${API}/segments/${id}`)
   return response.data
 }
 
 export default {
   getTrails,
-  getParks
+  getParks,
+  getSegment
 }

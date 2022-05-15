@@ -1,25 +1,27 @@
 <template>
   <div>
     <div class="container">
-      <div class="Park form-group col-lg-2">
-         <select style="width: 150px" onchange="onChangePark(this.value)" class="custom-select center" id="listPark" v-model="selectedPark">
+      <div class="Park form-group col-lg-3">
+         <select style="width: 150px" class="custom-select center" id="listPark" @change="onChangePark($event)" v-model="parkSelect">
             <option v-for="park in fetchParkList" :key="park.id" :value="park">
               {{ park.name }}</option
             >
           </select>
-          <select style="width:150px" onchange="onChangePark(this.value)" class="custom-select center" id="listTrail">
+          <select style="width:150px" class="custom-select center" id="listTrail" @change="onChangeTrail($event)" v-model="trailSelect">
             <option v-for="trail in filteredList" :key="trail.id" :value="trail">
               {{ trail.name }}</option
             >
           </select>
       </div>
-      <div class="Map center"></div>
-      <div class="Like"> <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
+      <div class="Like">
+        <p>Park: {{parkSelect.name}}</p>
+        <p>Trail : {{trailSelect.name}}</p>
+        <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
             <l-marker :lat-lng="markerLatLng"></l-marker>
           </l-map></div>
-        <div class="Trail center">
-        </div>
+      <div class="Trail center">
+      </div>
       </div>
   </div>
 </template>
@@ -32,28 +34,38 @@ export default {
   },
   data () {
     return {
-      selectedPark: [],
-      selectedTrail: [],
+      trailSelect: '',
+      parkSelect: '',
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      zoom: 15
+      zoom: 15,
+      segmentsList: []
     }
   },
   methods: {
     onChangePark (event) {
-      this.selectedPark = event.target.value
+      this.$store.dispatch('park/setPark', event.target.value)
     },
     onChangeTrail (event) {
-      this.selectedTrail = event.target.value
+      this.$store.dispatch('park/setTrail', event.target.value)
     }
   },
   computed: {
     filteredList: function () {
-      return this.$store.getters['park/getTrailList'].filter(x => x.parkId === this.selectedPark.id)
+      return this.$store.getters['park/getTrailList'].filter(x => x.parkId === this.parkSelect.id)
     },
     fetchParkList: function () {
       return this.$store.getters['park/getParkList']
+    },
+    getSelectedPark: function () {
+      return this.$store.getters['park/getSelectPark']
+    },
+    getSelectedTrail: function () {
+      return this.$store.getters['park/getSelectTrail']
+    },
+    getSegments: function () {
+      return this.$store.getters['park/getSegments']
     }
   }
 }
