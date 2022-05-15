@@ -8,7 +8,7 @@
             >
           </select>
           <select style="width:150px" class="custom-select center" id="listTrail" @change="onChangeTrail($event)" v-model="trailSelect">
-            <option v-for="trail in filteredList" :key="trail.id" :value="trail">
+            <option v-for="trail in filteredList" :key="trail.id" :value="trail.id">
               {{ trail.name }}</option
             >
           </select>
@@ -49,8 +49,10 @@ export default {
     },
     onChangeTrail (event) {
       this.$store.dispatch('park/setTrail', event.target.value)
+      this.$store.dispatch('park/setSegments', this.getSegmentsId) // Envoie la liste de segments au store
     }
   },
+
   computed: {
     filteredList: function () {
       return this.$store.getters['park/getTrailList'].filter(x => x.parkId === this.parkSelect.id)
@@ -64,8 +66,11 @@ export default {
     getSelectedTrail: function () {
       return this.$store.getters['park/getSelectTrail']
     },
-    getSegments: function () {
-      return this.$store.getters['park/getSegments']
+    getSegmentsId: function () {
+      return this.trailSelect.segments
+    },
+    getSegList: function () {
+      return this.$store.getters['park/getSegmentList']
     }
   }
 }

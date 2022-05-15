@@ -5,7 +5,8 @@ const state = {
   trailList: [],
   selectedPark: {},
   selectedTrail: {},
-  segments: []
+  segments: [],
+  segmentList: []
 }
 
 const getters = {
@@ -15,14 +16,17 @@ const getters = {
   getTrailList (state) {
     return state.trailList
   },
-  getSegments (state) {
-    return state.selectedTrail.segments
-  },
   getSelectPark (state) {
     return state.selectedPark
   },
   getSelectTrail (state) {
     return state.selectedTrail
+  },
+  getSegments (state) {
+    return state.segments
+  },
+  getSegmentList (state) {
+    return state.segmentList
   }
 }
 
@@ -33,14 +37,18 @@ const mutations = {
   async buildTrailList (state) {
     state.trailList = await trailService.getTrails()
   },
-  async addSegment (state, id) {
-    state.segments.push(await trailService.getSegment(id))
-  },
   STORE_PARK (state, park) {
     state.selectedPark = park
   },
   STORE_TRAIL (state, trail) {
     state.selectedTrail = trail
+  },
+  STORE_SEGMENTS (state, segments) {
+    state.segments = segments
+  },
+  STORE_SEGLIST (state, list) {
+    console.log('MUTATEUR' + list)
+    state.segmentList = list
   }
 }
 
@@ -58,12 +66,15 @@ const actions = {
   setPark ({ commit }, park) {
     commit('STORE_PARK', park)
   },
-  setTrail ({ commit }, trail) {
-    commit('STORE_TRAIL', trail)
-  },
-  fetchSegment ({ commit }) {
+  async setTrail ({ commit }, id) {
     try {
-      commit('addSegment')
+      const trail = await trailService.getTrailsId(id)
+      const segmentsList = await trailService.getAllSegments(trail.segments)
+      console.log(trail.segments)
+      console.log(segmentsList)
+      commit('STORE_TRAIL', trail)
+      commit('STORE_SEGMENTS', trail.segments)
+      commit('STORE_SEGLIST', segmentsList)
     } catch {}
   }
 }
