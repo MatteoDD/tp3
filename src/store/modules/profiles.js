@@ -2,12 +2,16 @@ import { userService } from '@/services/userService'
 
 const state = {
   profile: {},
-  onError: false
+  onError: false,
+  accountId: 0
 }
 
 const getters = {
   getProfile: state => {
     return state.profile
+  },
+  getAccountId: state => {
+    return state.accountId
   }
 }
 
@@ -26,6 +30,9 @@ const mutations = {
   async profileSetup (state, profileToSet) {
     state.profile = profileToSet
   },
+  accountId (state, id) {
+    state.accountId = id
+  },
   async remouveCurrentUser (state) {
     state.profile = {}
   }
@@ -37,6 +44,7 @@ const actions = {
       const userId = rootGetters['authentication/getTokenUserId']
       const profile = await userService.getUserById(userId)
       commit('profileSetup', profile)
+      commit('accountId', userId)
     } catch (error) {
       commit('setOnError')
     }

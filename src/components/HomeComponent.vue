@@ -48,6 +48,7 @@ export default {
       if (this.isLogedIn) {
         // voir like dans devtool
         this.$store.dispatch('likes/initializeLikes', this.profileId)
+        console.log(this.profileId)
         this.likesFromProfile = await this.$store.getters['likes/getLikes']
         if (this.isLogedIn) {
           this.$store.dispatch('likes/like', this.newLike)
@@ -72,11 +73,11 @@ export default {
       return this.selectedTrail.id
     },
     profileId: function () {
-      return this.$store.getters['profiles/getProfile'].id
+      return this.$store.getters['profiles/getAccountId']
     },
     newLike: function () {
       const newLike = {
-        parkId: this.selectedParkId,
+        userId: this.$store.getters['profiles/getAccountId'],
         trailId: this.selectedTrailId + ''
       }
       return newLike
