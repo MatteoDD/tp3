@@ -50,6 +50,7 @@ export default {
         this.$store.dispatch('likes/initializeLikes', this.profileId)
         console.log(this.profileId)
         this.likesFromProfile = await this.$store.getters['likes/getLikes']
+        this.likesFromProfile = await this.$store.getters['likes/getLikes']
         if (this.isLogedIn) {
           this.$store.dispatch('likes/like', this.newLike)
         }
