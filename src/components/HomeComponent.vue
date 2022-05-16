@@ -16,7 +16,7 @@
       <div class="Like">
         <p>Park: {{parkSelect.name}}</p>
         <p>Trail : {{getSelectedTrail.name}}</p>
-        <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="getCenterCoords[0]">
+        <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
             <l-marker :lat-lng="markerLatLng"></l-marker>
           </l-map></div>
@@ -118,10 +118,10 @@ export default {
     },
     nbOfLikeInProfile: function () {
       return this.likesInProfile.length
-    },
-    getCenterCoords: function () {
-      return this.getSegList[0].coordinates
     }
+    // getCenterCoords: function () {
+    //   return this.getSegList[0].coordinates
+    // }
   }
 }
 </script>
