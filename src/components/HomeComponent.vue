@@ -21,6 +21,7 @@
         <div class="Trail center">
         </div>
       </div>
+      <button @click="setLikeToTrail">like temp</button>
   </div>
 </template>
 
@@ -34,7 +35,6 @@ export default {
     return {
       selectedPark: [],
       selectedTrail: [],
-      likesFromProfile: [],
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -43,18 +43,27 @@ export default {
   },
   methods: {
     onChangePark () {
+      if (this.isLogedIn) {
+        // voir like dans devtool
+        this.$store.dispatch('likes/initializeLikes', this.profileId)
+      }
     },
     async onChangeTrail () {
       if (this.isLogedIn) {
         // voir like dans devtool
         this.$store.dispatch('likes/initializeLikes', this.profileId)
-        console.log(this.profileId)
-        this.likesFromProfile = await this.$store.getters['likes/getLikes']
-        this.likesFromProfile = await this.$store.getters['likes/getLikes']
-        if (this.isLogedIn) {
-          this.$store.dispatch('likes/like', this.newLike)
-        }
       }
+    },
+    setLikeToTrail () {
+      if (this.isLogedIn) {
+        setTimeout(() => {
+          this.refreshLikes()
+        }, 1115)
+        this.$store.dispatch('likes/like', this.newLike)
+      }
+    },
+    refreshLikes () {
+      this.$store.dispatch('likes/initializeLikes', this.profileId)
     }
   },
   computed: {
@@ -66,9 +75,6 @@ export default {
     },
     isLogedIn: function () {
       return this.$store.getters['authentication/isLoggedIn']
-    },
-    selectedParkId: function () {
-      return this.selectedPark.id
     },
     selectedTrailId: function () {
       return this.selectedTrail.id
@@ -82,6 +88,9 @@ export default {
         trailId: this.selectedTrailId + ''
       }
       return newLike
+    },
+    likesInProfile: function () {
+      return this.$store.getters['likes/getLikes']
     }
   }
 }

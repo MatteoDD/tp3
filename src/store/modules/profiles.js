@@ -30,7 +30,7 @@ const mutations = {
   async profileSetup (state, profileToSet) {
     state.profile = profileToSet
   },
-  accountId (state, id) {
+  setAccountId (state, id) {
     state.accountId = id
   },
   async remouveCurrentUser (state) {
@@ -39,18 +39,18 @@ const mutations = {
 }
 
 const actions = {
+  async createProfile ({ commit }, profile) {
+    await commit('initializeProfileTry', profile)
+  },
   async getProfile ({ commit, rootGetters }) {
     try {
       const userId = rootGetters['authentication/getTokenUserId']
       const profile = await userService.getUserById(userId)
       commit('profileSetup', profile)
-      commit('accountId', userId)
+      commit('setAccountId', userId)
     } catch (error) {
       commit('setOnError')
     }
-  },
-  async createProfile ({ commit }, profile) {
-    await commit('initializeProfileTry', profile)
   },
   async resetProfile ({ commit }) {
     commit('remouveCurrentUser')

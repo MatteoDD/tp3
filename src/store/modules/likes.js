@@ -2,7 +2,6 @@ import { userService } from '../../services/userService'
 
 const state = {
   profileId: '',
-  trailId: '',
   likes: [],
   likeToAdd: {},
   onError: false
@@ -22,8 +21,10 @@ const mutations = {
     state.likeToAdd = like
     state.trailId = like.trailId
   },
+  async getLikes (state, id) {
+    state.likes = await userService.getLikes(id)
+  },
   async sendLike (state) {
-    console.log('sendLike')
     await userService.sendLike(state.likeToAdd)
   },
   setProfileId (state, profileId) {
@@ -31,23 +32,32 @@ const mutations = {
   },
   setOnError (state, onError) {
     state.onError = onError
-  },
-  async getLikes (state, id) {
-    state.likes = await userService.getLikes(id)
   }
 }
 
 const actions = {
   like ({ commit }, like) {
-    commit('setLike', like)
-    commit('sendLike')
+    try {
+      commit('setLike', like)
+      commit('sendLike')
+    } catch (error) {
+      commit('setOnError', true)
+    }
   },
   deleteLike ({ commit }) {
-    commit('setProfileId', '')
+    try {
+      commit('setProfileId', '')
+    } catch (error) {
+      commit('setOnError', true)
+    }
   },
   initializeLikes ({ commit }, profileId) {
-    commit('setProfileId', profileId)
-    commit('getLikes', profileId)
+    if (profileId !== '') {
+      commit('setProfileId', profileId)
+      commit('getLikes', profileId)
+    } else {
+      commit('setOnError', true)
+    }
   }
 }
 
