@@ -37,7 +37,6 @@ export default {
     }
   },
   methods: {
-    // pourrait etre servie aussi pour la connexion vu utilisation + que 2 fois(register et login)
     async login () {
       await this.$store.dispatch('authentication/login', {
         email: this.newProfile.email,

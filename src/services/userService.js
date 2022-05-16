@@ -11,6 +11,16 @@ async function getUserById (userId) {
   }
 }
 
+// async function getUserAuth (user) {
+//   try {
+//     console.log('getUserById')
+//     const response = await requestInterceptor.post(`${API}/api/login`, user)
+//     return response.data
+//   } catch (error) {
+//     throw parseAxiosErrorToAppError(error)
+//   }
+// }
+
 async function setUser (user) {
   try {
     const response = await requestInterceptor.post(`${API}/api/register`, user)
@@ -20,40 +30,8 @@ async function setUser (user) {
   }
 }
 
-async function sendLike (like) {
-  try {
-    const response = await requestInterceptor.post(`${API}/api/likes`, {
-      userId: like.userId,
-      trailId: like.trailId
-    })
-    return response.data
-  } catch (error) {
-    throw parseAxiosErrorToAppError(error)
-  }
-}
-
-async function deleteLike (like) {
-  try {
-    const response = await requestInterceptor.delete(`${API}/api/likes/${like.likeId}`)
-    return response.data
-  } catch (error) {
-    throw parseAxiosErrorToAppError(error)
-  }
-}
-
-async function getLikes (userId) {
-  try {
-    const response = await requestInterceptor.get(`${API}/api/users/${userId}/likes`)
-    return response.data
-  } catch (error) {
-    throw parseAxiosErrorToAppError(error)
-  }
-}
-
 export const userService = {
   getUserById,
-  setUser,
-  sendLike,
-  getLikes,
-  deleteLike
+  setUser
+  // getUserAuth
 }

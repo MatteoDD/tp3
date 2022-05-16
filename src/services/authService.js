@@ -15,21 +15,6 @@ async function getToken (credential) {
   }
 }
 
-async function register (profile) {
-  try {
-    const response = await requestInterceptor.post(`${API}/api/register`, {
-      email: profile.email,
-      password: profile.password,
-      name: profile.name
-    })
-    const token = response.data.accessToken
-    return token
-  } catch (error) {
-    throw parseAxiosErrorToAppError(error)
-  }
-}
-
 export const authService = {
-  getToken,
-  register
+  getToken
 }

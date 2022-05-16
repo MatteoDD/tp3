@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="container">
-      <div class="Park form-group col-lg-2">
-         <select style="width: 150px" @change="onChangePark" class="custom-select center" id="listPark" v-model="selectedPark">
+      <div class="Park form-group col-lg-3">
+         <select style="width: 150px" class="custom-select center" id="listPark" @change="onChangePark($event)" v-model="parkSelect">
             <option v-for="park in fetchParkList" :key="park.id" :value="park">
               {{ park.name }}</option
             >
           </select>
-          <select style="width:150px" @change="onChangeTrail" class="custom-select center" id="listTrail" v-model="selectedTrail">
-            <option v-for="trail in filteredList" :key="trail.id" :value="trail">
+          <select style="width:150px" class="custom-select center" id="listTrail" @change="onChangeTrail($event)" v-model="trailSelect">
+            <option v-for="trail in filteredList" :key="trail.id" :value="trail.id">
               {{ trail.name }}</option
             >
           </select>
@@ -23,8 +23,6 @@
       <div class="Trail center">
       </div>
       </div>
-      <button @click="setLikeToTrail">like temp</button>
-      <button @click="deleteLikeToTrail">dislike temp</button>
   </div>
 </template>
 
@@ -46,40 +44,12 @@ export default {
     }
   },
   methods: {
-    onChangePark () {
-      if (this.isLogedIn) {
-        // voir like dans devtool
-        this.$store.dispatch('likes/initializeLikes', this.profileId)
-      }
+    onChangePark (event) {
+      this.$store.dispatch('park/setPark', event.target.value)
     },
-    async onChangeTrail () {
-      if (this.isLogedIn) {
-        // voir like dans devtool
-        this.$store.dispatch('likes/initializeLikes', this.profileId)
-      }
-    },
-    setLikeToTrail () {
-      if (this.isLogedIn) {
-        setTimeout(() => {
-          this.refreshLikes()
-        }, 1115)
-        this.$store.dispatch('likes/like', this.newLike)
-      }
-    },
-    deleteLikeToTrail () {
-      if (this.isLogedIn) {
-        for (let i = 0; i < parseInt(this.nbOfLikeInProfile); i++) {
-          if (this.selectedTrail.id === this.likesInProfile[i].trailId) {
-            this.$store.dispatch('likes/deleteLike', this.newLike)
-          }
-        }
-        this.$store.dispatch('likes/deleteLike', this.selectedTrail.id).then(() => {
-          this.refreshLikes()
-        })
-      }
-    },
-    refreshLikes () {
-      this.$store.dispatch('likes/initializeLikes', this.profileId)
+    onChangeTrail (event) {
+      this.$store.dispatch('park/setTrail', event.target.value)
+      this.$store.dispatch('park/setSegments', this.getSegmentsId) // Envoie la liste de segments au store
     }
   },
 
@@ -90,24 +60,17 @@ export default {
     fetchParkList: function () {
       return this.$store.getters['park/getParkList']
     },
-    isLogedIn: function () {
-      return this.$store.getters['authentication/isLoggedIn']
+    getSelectedPark: function () {
+      return this.$store.getters['park/getSelectPark']
     },
-    profileId: function () {
-      return this.$store.getters['profiles/getAccountId']
+    getSelectedTrail: function () {
+      return this.$store.getters['park/getSelectTrail']
     },
-    newLike: function () {
-      const newLike = {
-        userId: this.$store.getters['profiles/getAccountId'],
-        trailId: this.selectedTrail.id + ''
-      }
-      return newLike
+    getSegmentsId: function () {
+      return this.trailSelect.segments
     },
-    likesInProfile: function () {
-      return this.$store.getters['likes/getLikes']
-    },
-    nbOfLikeInProfile: function () {
-      return this.likesInProfile.length
+    getSegList: function () {
+      return this.$store.getters['park/getSegmentList']
     }
   }
 }
