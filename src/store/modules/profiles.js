@@ -54,6 +54,9 @@ const actions = {
   },
   async resetProfile ({ commit }) {
     commit('remouveCurrentUser')
+  },
+  async resetProfiless ({ commit }) {
+    commit('remouveCurrentUser')
   }
 }
 

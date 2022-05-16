@@ -34,6 +34,11 @@ const actions = {
     try {
       commit('buildTrailList')
     } catch {}
+  },
+  initializeTrailss ({ commit }) {
+    try {
+      commit('buildTrailList')
+    } catch {}
   }
 }
 

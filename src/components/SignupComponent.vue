@@ -26,7 +26,7 @@
           placeholder="********"
           v-model="newProfile.password"
         /><br />
-        <button type="button" @click="signup" class="btn btn-primary">S'enregistrer</button>
+        <button type="button" @click="signup" class="btn btn-primary">S 'enregistrer</button>
       </form>
     </div>
   </div>

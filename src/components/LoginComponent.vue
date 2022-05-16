@@ -21,7 +21,7 @@
         <button type="button" class="btn btn-primary" @click="login">Se connecter</button>
       </form>
       <br />
-      <router-link to="/signup">Créer un compte</router-link>
+      <router-link to="/signup">Créer  un compte</router-link>
     </div>
   </div>
 </template>
