@@ -19,7 +19,6 @@ const getters = {
 const mutations = {
   setLike (state, like) {
     state.likeToAdd = like
-    state.trailId = like.trailId
   },
   async getLikes (state, id) {
     state.likes = await userService.getLikes(id)
@@ -36,14 +35,14 @@ const mutations = {
   async deleteLike (state, trailId) {
     let likeToDeleteTemp = {}
     state.likes.forEach(like => {
-      if (like.trailId === trailId + '') {
+      if (like.trailId === trailId) {
         likeToDeleteTemp = like
       }
     })
     const likeToDelete =
     {
       likeId: likeToDeleteTemp.id,
-      userId: likeToDeleteTemp.userId
+      userId: state.profileId
     }
     await userService.deleteLike(likeToDelete)
   }

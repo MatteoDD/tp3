@@ -1,25 +1,27 @@
 <template>
   <div>
     <div class="container">
-      <div class="Park form-group col-lg-2">
-         <select style="width: 150px" @change="onChangePark" class="custom-select center" id="listPark" v-model="selectedPark">
+      <div class="Park form-group col-lg-3">
+         <select style="width: 150px" class="custom-select center" id="listPark" @change="onChangePark($event)" v-model="parkSelect">
             <option v-for="park in fetchParkList" :key="park.id" :value="park">
               {{ park.name }}</option
             >
           </select>
-          <select style="width:150px" @change="onChangeTrail" class="custom-select center" id="listTrail" v-model="selectedTrail">
-            <option v-for="trail in filteredList" :key="trail.id" :value="trail">
-              {{ trail.name }} !</option
+          <select style="width:150px" class="custom-select center" id="listTrail" @change="onChangeTrail($event)" v-model="trailSelect">
+            <option v-for="trail in filteredList" :key="trail.id" :value="trail.id">
+              {{ trail.name }}</option
             >
           </select>
       </div>
-      <div class="Map center"></div>
-      <div class="Like"> <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
+      <div class="Like">
+        <p>Park: {{parkSelect.name}}</p>
+        <p>Trail : {{getSelectedTrail.name}}</p>
+        <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
             <l-marker :lat-lng="markerLatLng"></l-marker>
           </l-map></div>
-        <div class="Trail center">
-        </div>
+      <div class="Trail center">
+      </div>
       </div>
       <button @click="setLikeToTrail">like temp</button>
       <button @click="deleteLikeToTrail">dislike temp</button>
@@ -34,22 +36,27 @@ export default {
   },
   data () {
     return {
-      selectedPark: [],
-      selectedTrail: [],
+      trailSelect: '',
+      parkSelect: '',
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      zoom: 15
+      zoom: 15,
+      segmentsList: []
     }
   },
   methods: {
-    onChangePark () {
+    onChangePark (event) {
+      this.$store.dispatch('park/setPark', event.target.value)
+      console.log(event.target.value)
       if (this.isLogedIn) {
         // voir like dans devtool
         this.$store.dispatch('likes/initializeLikes', this.profileId)
       }
     },
-    async onChangeTrail () {
+    onChangeTrail (event) {
+      this.$store.dispatch('park/setTrail', event.target.value)
+      this.$store.dispatch('park/setSegments', this.getSegmentsId) // Envoie la liste de segments au store
       if (this.isLogedIn) {
         // voir like dans devtool
         this.$store.dispatch('likes/initializeLikes', this.profileId)
@@ -65,12 +72,7 @@ export default {
     },
     deleteLikeToTrail () {
       if (this.isLogedIn) {
-        for (let i = 0; i < parseInt(this.nbOfLikeInProfile); i++) {
-          if (this.selectedTrail.id === this.likesInProfile[i].trailId) {
-            this.$store.dispatch('likes/deleteLike', this.newLike)
-          }
-        }
-        this.$store.dispatch('likes/deleteLike', this.selectedTrail.id).then(() => {
+        this.$store.dispatch('likes/deleteLike', this.trailSelect).then(() => {
           this.refreshLikes()
         })
       }
@@ -81,10 +83,22 @@ export default {
   },
   computed: {
     filteredList: function () {
-      return this.$store.getters['park/getTrailList'].filter(x => x.parkId === this.selectedPark.id)
+      return this.$store.getters['park/getTrailList'].filter(x => x.parkId === this.parkSelect.id)
     },
     fetchParkList: function () {
       return this.$store.getters['park/getParkList']
+    },
+    getSelectedPark: function () {
+      return this.$store.getters['park/getSelectPark']
+    },
+    getSelectedTrail: function () {
+      return this.$store.getters['park/getSelectTrail']
+    },
+    getSegmentsId: function () {
+      return this.trailSelect.segments
+    },
+    getSegList: function () {
+      return this.$store.getters['park/getSegmentList']
     },
     isLogedIn: function () {
       return this.$store.getters['authentication/isLoggedIn']
@@ -95,7 +109,7 @@ export default {
     newLike: function () {
       const newLike = {
         userId: this.$store.getters['profiles/getAccountId'],
-        trailId: this.selectedTrail.id + ''
+        trailId: this.trailSelect
       }
       return newLike
     },

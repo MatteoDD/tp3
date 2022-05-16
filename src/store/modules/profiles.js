@@ -3,7 +3,7 @@ import { userService } from '@/services/userService'
 const state = {
   profile: {},
   onError: false,
-  accountId: 0
+  accountId: ''
 }
 
 const getters = {

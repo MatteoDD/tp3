@@ -28,7 +28,6 @@ async function register (profile) {
     throw parseAxiosErrorToAppError(error)
   }
 }
-
 export const authService = {
   getToken,
   register
