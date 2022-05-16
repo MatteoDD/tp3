@@ -9,7 +9,7 @@
           </select>
           <select style="width:150px" @change="onChangeTrail" class="custom-select center" id="listTrail" v-model="selectedTrail">
             <option v-for="trail in filteredList" :key="trail.id" :value="trail">
-              {{ trail.name }}</option
+              {{ trail.name }} !</option
             >
           </select>
       </div>
