@@ -15,7 +15,7 @@
       </div>
       <div class="Like">
         <p>Park: {{parkSelect.name}}</p>
-        <p>Trail : {{trailSelect.name}}</p>
+        <p>Trail : {{getSelectedTrail.name}}</p>
         <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
             <l-marker :lat-lng="markerLatLng"></l-marker>
