@@ -34,15 +34,16 @@ const mutations = {
     state.onError = onError
   },
   async deleteLike (state, trailId) {
-    // TODO: if avec trailId
-    let likeId = ''
+    let likeToDeleteTemp = {}
     state.likes.forEach(like => {
-      likeId = like.id
+      if (like.trailId === trailId + '') {
+        likeToDeleteTemp = like
+      }
     })
     const likeToDelete =
     {
-      likeId: likeId,
-      userId: state.profileId
+      likeId: likeToDeleteTemp.id,
+      userId: likeToDeleteTemp.userId
     }
     await userService.deleteLike(likeToDelete)
   }
