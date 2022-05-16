@@ -32,6 +32,19 @@ const mutations = {
   },
   setOnError (state, onError) {
     state.onError = onError
+  },
+  async deleteLike (state, trailId) {
+    // TODO: if avec trailId
+    let likeId = ''
+    state.likes.forEach(like => {
+      likeId = like.id
+    })
+    const likeToDelete =
+    {
+      likeId: likeId,
+      userId: state.profileId
+    }
+    await userService.deleteLike(likeToDelete)
   }
 }
 
@@ -44,9 +57,9 @@ const actions = {
       commit('setOnError', true)
     }
   },
-  deleteLike ({ commit }) {
+  deleteLike ({ commit }, trailId) {
     try {
-      commit('setProfileId', '')
+      commit('deleteLike', trailId)
     } catch (error) {
       commit('setOnError', true)
     }

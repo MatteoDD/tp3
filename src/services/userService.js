@@ -32,6 +32,15 @@ async function sendLike (like) {
   }
 }
 
+async function deleteLike (like) {
+  try {
+    const response = await requestInterceptor.delete(`${API}/api/likes/${like.likeId}`)
+    return response.data
+  } catch (error) {
+    throw parseAxiosErrorToAppError(error)
+  }
+}
+
 async function getLikes (userId) {
   try {
     const response = await requestInterceptor.get(`${API}/api/users/${userId}/likes`)
@@ -45,5 +54,6 @@ export const userService = {
   getUserById,
   setUser,
   sendLike,
-  getLikes
+  getLikes,
+  deleteLike
 }

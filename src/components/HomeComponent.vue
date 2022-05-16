@@ -22,6 +22,7 @@
         </div>
       </div>
       <button @click="setLikeToTrail">like temp</button>
+      <button @click="deleteLikeToTrail">dislike temp</button>
   </div>
 </template>
 
@@ -62,6 +63,18 @@ export default {
         this.$store.dispatch('likes/like', this.newLike)
       }
     },
+    deleteLikeToTrail () {
+      if (this.isLogedIn) {
+        for (let i = 0; i < parseInt(this.nbOfLikeInProfile); i++) {
+          if (this.selectedTrail.id === this.likesInProfile[i].trailId) {
+            this.$store.dispatch('likes/deleteLike', this.newLike)
+          }
+        }
+        this.$store.dispatch('likes/deleteLike', this.selectedTrail.id).then(() => {
+          this.refreshLikes()
+        })
+      }
+    },
     refreshLikes () {
       this.$store.dispatch('likes/initializeLikes', this.profileId)
     }
@@ -76,21 +89,21 @@ export default {
     isLogedIn: function () {
       return this.$store.getters['authentication/isLoggedIn']
     },
-    selectedTrailId: function () {
-      return this.selectedTrail.id
-    },
     profileId: function () {
       return this.$store.getters['profiles/getAccountId']
     },
     newLike: function () {
       const newLike = {
         userId: this.$store.getters['profiles/getAccountId'],
-        trailId: this.selectedTrailId + ''
+        trailId: this.selectedTrail.id + ''
       }
       return newLike
     },
     likesInProfile: function () {
       return this.$store.getters['likes/getLikes']
+    },
+    nbOfLikeInProfile: function () {
+      return this.likesInProfile.length
     }
   }
 }

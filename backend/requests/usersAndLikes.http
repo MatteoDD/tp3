@@ -54,5 +54,5 @@ content-type: application/json
 }
 
 ### supprimer un "j'aime" d'un utilisateur 
-DELETE  http://localhost:3000/api/likes/962
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2NTIzOTY0NzgsImV4cCI6MTY1MjQwMDA3OCwic3ViIjoiOTk5OTkifQ.acbEm2pqa0xbaDS5iZv75XGSspmloAe4EjbXrrHWtnY
+DELETE  http://localhost:3000/api/likes/961
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpYXQiOjE2NTI2NTA1MzAsImV4cCI6MTY1MjY1NDEzMCwic3ViIjoiOTk5OTkifQ.uEsDBRQ5YOJKS4UbpLK-l1bqNVh8clDEwVtwvgZES-k
