@@ -5,8 +5,17 @@
         <input
           type="text"
           class="form-control"
+          id="name"
+          name="name"
+          placeholder="Nom"
+          v-model="newProfile.name"
+        /><br />
+        <input
+          type="text"
+          class="form-control"
           id="email"
           name="email"
+          v-model="newProfile.email"
           placeholder="courriel@courriel.com"
         /><br />
         <input
@@ -15,15 +24,53 @@
           id="password"
           name="password"
           placeholder="********"
+          v-model="newProfile.password"
         /><br />
-        <button type="submit" class="btn btn-primary">S'enregistrer</button>
+        <button type="button" @click="signup" class="btn btn-primary">S'enregistrer</button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'SignupComponent',
+  data () {
+    return {
+      newProfile: {
+        email: '',
+        password: '',
+        name: ''
+      }
+    }
+  },
+  methods: {
+    async signup () {
+      if (this.newProfile.email && this.newProfile.password) {
+        await console.log(this.newProfile)
+        await this.$store.dispatch('authentication/register', this.completeProfile)
+        if (this.isLogged) {
+          await this.$store.dispatch('profiles/getProfile')
+          this.$router.push('/')
+        }
+      }
+    }
+  },
+  computed: {
+    isLogged () {
+      return this.$store.getters['authentication/isLoggedIn']
+    },
+    completeProfile () {
+      const completeProfile = {
+        // name: this.newProfile.email.substr(0, this.newProfile.email.indexOf('@')),
+        name: this.newProfile.name,
+        email: this.newProfile.email,
+        password: this.newProfile.password
+      }
+      return completeProfile
+    }
+  }
+}
 </script>
 
 <style lang="css" scoped>
