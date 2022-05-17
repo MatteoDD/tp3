@@ -1,45 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import PageNotFound from '@/views/PageNotFound'
+import store from '@/store/index'
+import routes from './routes'
 
 Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/signup',
-    name: 'Signup',
-    component: () =>
-      import(/* webpackChunkName: "Pointage" */ '../views/Signup.vue')
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () =>
-      import(/* webpackChunkName: "Pointage" */ '../views/Login.vue')
-  },
-  {
-    path: '/logout',
-    name: 'Logout',
-    component: () =>
-      import(/* webpackChunkName: "Pointage" */ '../views/Logout.vue')
-  },
-  {
-    path: '*',
-    name: 'PageNotFound',
-    component: PageNotFound
-  }
-]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !store.getters['authentication/isLoggedIn']) {
+    next({
+      name: 'Login',
+      query: { redirect: to.path }
+    })
+  } else if (to.meta.authPage && store.getters['authentication/isLoggedIn']) {
+    next({
+      name: 'Home'
+    })
+  } else {
+    next()
+  }
 })
 
 export default router

@@ -33,6 +33,9 @@ export default {
   async created () {
     this.$store.dispatch('park/initializeParks')
     this.$store.dispatch('park/initializeTrails')
+    if (this.$store.getters['authentication/isLoggedIn']) {
+      this.$store.dispatch('profiles/getProfile')
+    }
   },
   data () {
     return {
@@ -74,6 +77,7 @@ export default {
       if (this.isLogedIn) {
         this.$store.dispatch('likes/deleteLike', this.trailSelect).then(() => {
           this.refreshLikes()
+          this.$store.dispatch('likes/initializeLikes', this.profileId)
         })
       }
     },
