@@ -2,10 +2,9 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home |</router-link>
-      <router-link to="/login" v-if="!logged"> Login |</router-link>
+      <router-link to="/login" v-if="!logged" > Login |</router-link>
       <router-link to="/signup" v-if="!logged"> Signup</router-link>
       <router-link to="/logout" v-if="logged"> Déconnexion</router-link>
-      <!-- <button @click="logout" v-if="logged"> Déconnexion</button> -->
     </div>
     <router-view />
   </div>

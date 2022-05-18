@@ -47,7 +47,6 @@ const mutations = {
     state.segments = segments
   },
   STORE_SEGLIST (state, list) {
-    // console.log('MUTATEUR' + list)
     state.segmentList = list
   }
 }

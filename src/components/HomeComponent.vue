@@ -18,18 +18,32 @@
         <p>Trail : {{getSelectedTrail.name}}</p>
         <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-            <l-marker :lat-lng="markerLatLng"></l-marker>
-          </l-map></div>
+            <l-polyline v-for="seg in getSegList" v-bind:key="seg.id" :lat-lngs="seg.coordinates" :color="difficultySwitch(seg.level)"></l-polyline>
+          </l-map>
+        <button class="btn btn-outline-danger" @click="setLikeToTrail">Like
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+          <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+          </svg></button>
+        <button @click="deleteLikeToTrail" class="btn btn-outline-danger">Dislike
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+        </svg>
+        </button>
+        </div>
       <div class="Trail center">
       </div>
       </div>
-      <button @click="setLikeToTrail">like temp</button>
-      <button @click="deleteLikeToTrail">dislike temp</button>
   </div>
 </template>
 
 <script>
+import { LMap, LTileLayer, LPolyline } from 'vue2-leaflet'
 export default {
+  components: {
+    LMap,
+    LTileLayer,
+    LPolyline
+  },
   async created () {
     this.$store.dispatch('park/initializeParks')
     this.$store.dispatch('park/initializeTrails')
@@ -45,13 +59,12 @@ export default {
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 15,
-      segmentsList: []
+      center: [46.78601339822761, -71.28621784239412]
     }
   },
   methods: {
     onChangePark (event) {
       this.$store.dispatch('park/setPark', event.target.value)
-      console.log(event.target.value)
       if (this.isLogedIn) {
         // voir like dans devtool
         this.$store.dispatch('likes/initializeLikes', this.profileId)
@@ -83,6 +96,24 @@ export default {
     },
     refreshLikes () {
       this.$store.dispatch('likes/initializeLikes', this.profileId)
+    },
+    difficultySwitch (segmentDiff) {
+      this.changeCenter()
+      switch (segmentDiff) {
+        case 'Très Difficile':
+          return 'red'
+        case 'Difficile':
+          return 'orange'
+        case 'Intermédiaire':
+          return 'blue'
+        case 'Facile':
+          return 'green'
+        case 'Inconnue':
+          return 'black'
+      }
+    },
+    changeCenter () {
+      this.center = this.getSegList[0].coordinates[0]
     }
   },
   computed: {
@@ -102,7 +133,7 @@ export default {
       return this.trailSelect.segments
     },
     getSegList: function () {
-      return this.$store.getters['park/getSegmentList']
+      return this.$store.state.park.segmentList
     },
     isLogedIn: function () {
       return this.$store.getters['authentication/isLoggedIn']
@@ -123,9 +154,6 @@ export default {
     nbOfLikeInProfile: function () {
       return this.likesInProfile.length
     }
-    // getCenterCoords: function () {
-    //   return this.getSegList[0].coordinates
-    // }
   }
 }
 </script>

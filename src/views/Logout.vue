@@ -1,7 +1,6 @@
 <template>
     <div>
-        <!-- ajouter nom du profil avec aurevoir -->
-        <button @click="logout">Déconecté</button>
+        <button @click="logout">Déconnexion</button>
     </div>
 </template>
 
