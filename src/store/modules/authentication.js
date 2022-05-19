@@ -13,6 +13,10 @@ const getters = {
   getTokenUserId (state) {
     const userId = tokenHelper.getUserId(state.token)
     return userId
+  },
+  getTokenExpiration (state) {
+    const expiration = tokenHelper.getExpiration(state.token)
+    return expiration
   }
 }
 
