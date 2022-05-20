@@ -11,7 +11,7 @@ export default {
     logout () {
       this.$store.dispatch('authentication/logout')
       this.$store.dispatch('profiles/resetProfile')
-    //   this.$router.push('/')
+      this.$router.push('/')
     }
   }
 }

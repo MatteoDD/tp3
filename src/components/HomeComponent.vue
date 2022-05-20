@@ -48,21 +48,7 @@ export default {
   async created () {
     this.$store.dispatch('park/initializeParks')
     this.$store.dispatch('park/initializeTrails')
-    if (this.isLogedIn && this.isValidUser) {
-      if (this.isValidToken === true) {
-        this.$store.dispatch('profiles/getProfile')
-        this.$store.dispatch('likes/initializeLikes', this.profileId)
-      } else {
-        await this.$bvModal.msgBoxOk('veillez vous reconnecter, connection expirer', {
-          okTitle: 'logout',
-          centered: true,
-          okVariant: 'success'
-        }).then(() => {
-          this.$store.dispatch('authentication/logout')
-          this.$router.push('/login')
-        })
-      }
-    }
+    this.isValid()
   },
   data () {
     return {
@@ -132,7 +118,7 @@ export default {
       }
     },
     isValid () {
-      if (this.isLogedIn) {
+      if (this.isLoggedIn) {
         if (!this.isValidUser) {
           this.$bvModal.msgBoxOk('veillez vous reconnecter, connection expirer', {
             okTitle: 'logout',
