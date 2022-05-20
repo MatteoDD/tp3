@@ -2,9 +2,9 @@ import { mount, createLocalVue } from '@vue/test-utils'
 import App from '@/App.vue'
 import VueRouter from 'vue-router'
 import { routes } from '../routes'
-import Home from '@/components/HomeComponent.vue'
+import HomeComponent from '@/components/HomeComponent.vue'
 import LoginComponent from '@/components/LoginComponent.vue'
-import Signup from '@/components/SignupComponent.vue'
+import SignupComponent from '@/components/SignupComponent.vue'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
@@ -36,7 +36,7 @@ describe('routes.js', () => {
   test('/ doit afficher la page home.', async () => {
     await router.push('/')
 
-    expect(wrapper.findComponent(Home).exists()).toBe(true)
+    expect(wrapper.findComponent(HomeComponent).exists()).toBe(true)
   })
 
   test('/login doit afficher la page de login.', async () => {
@@ -47,6 +47,6 @@ describe('routes.js', () => {
   test('/signup doit afficher la page signup.', async () => {
     await router.push('/signup')
 
-    expect(wrapper.findComponent(Signup).exists()).toBe(true)
+    expect(wrapper.findComponent(SignupComponent).exists()).toBe(true)
   })
 })

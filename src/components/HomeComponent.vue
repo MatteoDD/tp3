@@ -65,21 +65,21 @@ export default {
   methods: {
     onChangePark (event) {
       this.$store.dispatch('park/setPark', event.target.value)
-      if (this.isLogedIn) {
+      if (this.isLoggedIn) {
         // voir like dans devtool
         this.$store.dispatch('likes/initializeLikes', this.profileId)
       }
     },
     onChangeTrail (event) {
       this.$store.dispatch('park/setTrail', event.target.value)
-      this.$store.dispatch('park/setSegments', this.getSegmentsId) // Envoie la liste de segments au store
-      if (this.isLogedIn) {
+      // this.$store.dispatch('park/setSegments', this.getSegmentsId) // Envoie la liste de segments au store
+      if (this.isLoggedIn) {
         // voir like dans devtool
         this.$store.dispatch('likes/initializeLikes', this.profileId)
       }
     },
     setLikeToTrail () {
-      if (this.isLogedIn) {
+      if (this.isLoggedIn) {
         setTimeout(() => {
           this.refreshLikes()
         }, 1115)
@@ -87,7 +87,7 @@ export default {
       }
     },
     deleteLikeToTrail () {
-      if (this.isLogedIn) {
+      if (this.isLoggedIn) {
         this.$store.dispatch('likes/deleteLike', this.trailSelect).then(() => {
           this.refreshLikes()
           this.$store.dispatch('likes/initializeLikes', this.profileId)
@@ -129,13 +129,10 @@ export default {
     getSelectedTrail: function () {
       return this.$store.getters['park/getSelectTrail']
     },
-    getSegmentsId: function () {
-      return this.trailSelect.segments
-    },
     getSegList: function () {
       return this.$store.state.park.segmentList
     },
-    isLogedIn: function () {
+    isLoggedIn: function () {
       return this.$store.getters['authentication/isLoggedIn']
     },
     profileId: function () {
