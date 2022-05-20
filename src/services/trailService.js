@@ -23,12 +23,12 @@ async function getSegment (id) {
   } catch {}
 }
 
-async function getAllSegments (listSeg) {
-  const list = []
-  listSeg.forEach(async element => {
-    list.push(await getSegment(element))
+async function getAllSegments (s) {
+  const result = []
+  s.forEach(async element => {
+    result.push(await getSegment(element))
   })
-  return list
+  return result
 }
 
 async function getNbLikesAssociated (id) {
