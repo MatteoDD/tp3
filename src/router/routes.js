@@ -29,6 +29,12 @@ export default [
       import(/* webpackChunkName: "Pointage" */ '../views/Logout.vue')
   },
   {
+    path: '/admin',
+    name: 'Admin',
+    component: () =>
+      import(/* webpackChunkName: "secret" */ '../views/AdminP.vue')
+  },
+  {
     path: '*',
     name: 'PageNotFound',
     component: PageNotFound

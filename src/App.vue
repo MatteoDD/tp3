@@ -5,6 +5,7 @@
       <router-link to="/login" v-if="!logged" > Login |</router-link>
       <router-link to="/signup" v-if="!logged"> Signup</router-link>
       <router-link to="/logout" v-if="logged"> Déconnexion</router-link>
+      <router-link to="/admin" v-if="logged && isAdmin"> Admin</router-link>
     </div>
     <router-view />
   </div>
@@ -14,8 +15,14 @@
 export default {
   name: 'App',
   computed: {
-    logged () {
+    logged: function () {
       return this.$store.getters['authentication/isLoggedIn']
+    },
+    isAdmin: function () {
+      if (this.$store.getters['profiles/getRole'] === 'admin') {
+        return true
+      }
+      return false
     }
   }
 }

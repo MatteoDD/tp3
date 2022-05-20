@@ -24,7 +24,11 @@ const mutations = {
     state.likes = await userService.getLikes(id)
   },
   async sendLike (state) {
-    await userService.sendLike(state.likeToAdd)
+    try {
+      await userService.sendLike(state.likeToAdd)
+    } catch (error) {
+      state.onError = true
+    }
   },
   setProfileId (state, profileId) {
     state.profileId = profileId

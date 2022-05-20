@@ -16,6 +16,7 @@
       <div class="Like">
         <p>Park: {{parkSelect.name}}</p>
         <p>Trail : {{getSelectedTrail.name}}</p>
+        <p>Amount of likes on this trail : {{ getnbOfLikeAssociatedWithTrail }}</p>
         <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
             <l-polyline v-for="seg in getSegList" v-bind:key="seg.id" :lat-lngs="seg.coordinates" :color="difficultySwitch(seg.level)"></l-polyline>
@@ -47,12 +48,12 @@ export default {
   async created () {
     this.$store.dispatch('park/initializeParks')
     this.$store.dispatch('park/initializeTrails')
-    if (this.$store.getters['authentication/isLoggedIn']) {
-      if (this.$store.getters['authentication/getTokenExpiration']) {
+    if (this.isLogedIn && this.isValidUser) {
+      if (this.isValidToken === true) {
         this.$store.dispatch('profiles/getProfile')
         this.$store.dispatch('likes/initializeLikes', this.profileId)
       } else {
-        await this.$bvModal.msgBoxOk('veillez vous reconnecter', {
+        await this.$bvModal.msgBoxOk('veillez vous reconnecter, connection expirer', {
           okTitle: 'logout',
           centered: true,
           okVariant: 'success'
@@ -76,11 +77,17 @@ export default {
   },
   methods: {
     onChangePark (event) {
+      this.isValid()
       this.$store.dispatch('park/setPark', event.target.value)
+      this.wasAlreadyLogged()
     },
     onChangeTrail (event) {
+      this.isValid()
       this.$store.dispatch('likes/initializeLikes', this.profileId)
-      this.$store.dispatch('park/setTrail', event.target.value)
+      this.$store.dispatch('park/setTrail', event.target.value).then(() => {
+        this.$store.dispatch('park/getLikesAssociated')
+      }, 1000)
+      this.wasAlreadyLogged()
     },
     setLikeToTrail () {
       if (this.isLogedIn) {
@@ -118,6 +125,28 @@ export default {
     },
     changeCenter () {
       this.center = this.getSegList[0].coordinates[0]
+    },
+    wasAlreadyLogged () {
+      if (this.$store.getters['authentication/isLoggedIn'] && this.$store.getters['profiles/getProfile'] !== {}) {
+        this.$store.dispatch('profiles/getProfile')
+      }
+    },
+    isValid () {
+      if (this.isLogedIn) {
+        if (!this.isValidUser) {
+          this.$bvModal.msgBoxOk('veillez vous reconnecter, connection expirer', {
+            okTitle: 'logout',
+            centered: true,
+            okVariant: 'success'
+          }).then(() => {
+            this.$store.dispatch('authentication/logout').then(() => {
+              this.$store.dispatch('profiles/resetProfile')
+            }).then(() => {
+              this.$router.push('/login')
+            })
+          })
+        }
+      }
     }
   },
   computed: {
@@ -164,6 +193,23 @@ export default {
     },
     nbOfLikeInProfile: function () {
       return this.likesInProfile.length
+    },
+    getnbOfLikeAssociatedWithTrail: function () {
+      return this.$store.getters['park/getNbLikesAssociated']
+    },
+    isValidToken: function () {
+      if (this.$store.getters['authentication/isAlive'] === true && this.$store.getters['profiles/getError'] === false) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isValidUser: function () {
+      if (this.$store.getters['profiles/getError'] === false) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

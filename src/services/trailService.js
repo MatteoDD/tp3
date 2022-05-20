@@ -31,10 +31,16 @@ async function getAllSegments (listSeg) {
   return list
 }
 
+async function getNbLikesAssociated (id) {
+  const response = await requestInterceptor.get(`${API}/trails/${id}/likes`)
+  return response.data
+}
+
 export default {
   getTrails,
   getParks,
   getSegment,
   getTrailsId,
-  getAllSegments
+  getAllSegments,
+  getNbLikesAssociated
 }

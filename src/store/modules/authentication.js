@@ -14,9 +14,9 @@ const getters = {
     const userId = tokenHelper.getUserId(state.token)
     return userId
   },
-  getTokenExpiration (state) {
-    const expiration = tokenHelper.getExpiration(state.token)
-    return expiration
+  isAlive (state) {
+    const isExpired = tokenHelper.isAlive(state.token)
+    return !isExpired
   }
 }
 
@@ -30,6 +30,7 @@ const mutations = {
   },
   logout (state) {
     state.token = ''
+    state.authServiceError = ''
   },
   setAuthServiceError (state, message) {
     state.authServiceError = message

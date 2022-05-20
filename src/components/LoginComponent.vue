@@ -36,6 +36,9 @@ export default {
       }
     }
   },
+  created () {
+    this.$store.dispatch('profiles/resetProfile')
+  },
   methods: {
     async login () {
       await this.$store.dispatch('authentication/login', {

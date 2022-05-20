@@ -6,7 +6,8 @@ const state = {
   selectedPark: {},
   selectedTrail: {},
   segments: [],
-  segmentList: []
+  segmentList: [],
+  nbLikesAssociated: []
 }
 
 const getters = {
@@ -27,6 +28,9 @@ const getters = {
   },
   getSegmentList (state) {
     return state.segmentList
+  },
+  getNbLikesAssociated (state) {
+    return state.nbLikesAssociated.length
   }
 }
 
@@ -48,6 +52,9 @@ const mutations = {
   },
   STORE_SEGLIST (state, list) {
     state.segmentList = list
+  },
+  async COMPUTE_LIKES_ASSOCIATED (state) {
+    state.nbLikesAssociated = await trailService.getNbLikesAssociated(state.selectedTrail.id)
   }
 }
 
@@ -74,6 +81,11 @@ const actions = {
       commit('STORE_TRAIL', trail)
       commit('STORE_SEGMENTS', trail.segments)
       commit('STORE_SEGLIST', segmentsList)
+    } catch {}
+  },
+  getLikesAssociated ({ commit }) {
+    try {
+      commit('COMPUTE_LIKES_ASSOCIATED')
     } catch {}
   }
 }

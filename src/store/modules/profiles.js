@@ -12,6 +12,12 @@ const getters = {
   },
   getAccountId: state => {
     return state.accountId
+  },
+  getError: state => {
+    return state.onError
+  },
+  getRole: state => {
+    return state.profile.role
   }
 }
 
@@ -33,8 +39,9 @@ const mutations = {
   setAccountId (state, id) {
     state.accountId = id
   },
-  async remouveCurrentUser (state) {
+  remouveCurrentUser (state) {
     state.profile = {}
+    state.onError = false
   }
 }
 
@@ -53,9 +60,6 @@ const actions = {
     }
   },
   async resetProfile ({ commit }) {
-    commit('remouveCurrentUser')
-  },
-  async resetProfiless ({ commit }) {
     commit('remouveCurrentUser')
   }
 }
