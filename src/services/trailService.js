@@ -32,8 +32,10 @@ async function getAllSegments (s) {
 }
 
 async function getNbLikesAssociated (id) {
-  const response = await requestInterceptor.get(`${API}/trails/${id}/likes`)
-  return response.data
+  try {
+    const response = await requestInterceptor.get(`${API}/trails/${id}/likes`)
+    return response.data
+  } catch {}
 }
 
 export default {

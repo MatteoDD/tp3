@@ -7,7 +7,8 @@ const state = {
   selectedTrail: {},
   segments: [],
   segmentList: [],
-  nbLikesAssociated: []
+  nbLikesAssociated: [],
+  onError: false
 }
 
 const getters = {
@@ -35,11 +36,11 @@ const getters = {
 }
 
 const mutations = {
-  async buildParkList (state) {
-    state.parkList = await trailService.getParks()
+  async buildParkList (state, list) {
+    state.parkList = list
   },
-  async buildTrailList (state) {
-    state.trailList = await trailService.getTrails()
+  async buildTrailList (state, t) {
+    state.trailList = t
   },
   STORE_PARK (state, park) {
     state.selectedPark = park
@@ -55,19 +56,28 @@ const mutations = {
   },
   async COMPUTE_LIKES_ASSOCIATED (state) {
     state.nbLikesAssociated = await trailService.getNbLikesAssociated(state.selectedTrail.id)
+  },
+  setOnError (state) {
+    state.onError = true
   }
 }
 
 const actions = {
-  initializeParks ({ commit }) {
+  async initializeParks ({ commit }) {
     try {
-      commit('buildParkList')
-    } catch {}
+      const list = await trailService.getParks()
+      commit('buildParkList', list)
+    } catch (error) {
+      commit('setOnError')
+    }
   },
-  initializeTrails ({ commit }) {
+  async initializeTrails ({ commit }) {
     try {
-      commit('buildTrailList')
-    } catch {}
+      const list = await trailService.getTrails()
+      commit('buildTrailList', list)
+    } catch (error) {
+      commit('setOnError')
+    }
   },
   setPark ({ commit }, park) {
     commit('STORE_PARK', park)
@@ -81,12 +91,16 @@ const actions = {
       commit('STORE_TRAIL', trail)
       commit('STORE_SEGMENTS', trail.segments)
       commit('STORE_SEGLIST', segmentsList)
-    } catch {}
+    } catch (error) {
+      commit('setOnError')
+    }
   },
   getLikesAssociated ({ commit }) {
     try {
       commit('COMPUTE_LIKES_ASSOCIATED')
-    } catch {}
+    } catch (error) {
+      commit('setOnError')
+    }
   }
 }
 

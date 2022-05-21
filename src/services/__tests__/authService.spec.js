@@ -2,8 +2,8 @@ import Vue from 'vue'
 import { config } from '@vue/test-utils'
 import { shallowMount } from '@vue/test-utils'  
 import  { authService }  from '../authService.js'
-import fakeUsers from '../data/fakeUser.js'
-import token from '../data/fakeToken.js'
+import fakeUsers from '../../../tests/data/fakeUser.js'
+import token from '../../../tests/data/fakeToken.js'
 import requestInterceptor from '@/shared/requestInterceptor'
 
 jest.mock('@/shared/requestInterceptor')

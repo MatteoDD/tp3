@@ -2,11 +2,12 @@ import Vue from 'vue'
 import { config } from '@vue/test-utils'
 import { shallowMount } from '@vue/test-utils'  
 import trailService  from '../trailService.js'
-import fakeTrails from '../data/fakeTrails.js'
-import fakeParks from '../data/fakeTrails.js'
-import fakeSegments from '../data/fakeSegments.js'
+import fakeTrails from '../../../tests/data/fakeTrails.js'
+import fakeParks from '../../../tests/data/fakeTrails.js'
+import fakeSegments from '../../../tests/data/fakeSegments.js'
 import requestInterceptor from '@/shared/requestInterceptor'
-import trails from '../data/fakeTrails.js'
+import trails from '../../../tests/data/fakeTrails.js'
+
 
 jest.mock('@/shared/requestInterceptor')
 let parksList
