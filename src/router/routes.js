@@ -1,5 +1,4 @@
 import Home from '../views/Home.vue'
-import PageNotFound from '@/views/PageNotFound'
 
 export default [
   {
@@ -11,13 +10,13 @@ export default [
     path: '/signup',
     name: 'Signup',
     component: () =>
-      import(/* webpackChunkName: "Pointage" */ '../views/Signup.vue')
+      import(/* webpackChunkName: "signup" */ '../views/Signup.vue')
   },
   {
     path: '/login',
     name: 'Login',
     component: () =>
-      import(/* webpackChunkName: "Pointage" */ '../views/Login.vue'),
+      import(/* webpackChunkName: "login" */ '../views/Login.vue'),
     meta: {
       authPage: true
     }
@@ -26,7 +25,7 @@ export default [
     path: '/logout',
     name: 'Logout',
     component: () =>
-      import(/* webpackChunkName: "Pointage" */ '../views/Logout.vue')
+      import(/* webpackChunkName: "logout" */ '../views/Logout.vue')
   },
   {
     path: '/admin32323232',
@@ -37,6 +36,7 @@ export default [
   {
     path: '*',
     name: 'PageNotFound',
-    component: PageNotFound
+    component: () =>
+      import(/* webpackChunkName: "404" */ '../views/PageNotFound.vue')
   }
 ]
