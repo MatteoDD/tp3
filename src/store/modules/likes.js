@@ -4,7 +4,8 @@ const state = {
   profileId: '',
   likes: [],
   likeToAdd: {},
-  onError: false
+  onError: false,
+  addedLike: {}
 }
 
 const getters = {
@@ -20,12 +21,13 @@ const mutations = {
   setLike (state, like) {
     state.likeToAdd = like
   },
-  async getLikes (state, id) {
-    state.likes = await userService.getLikes(id)
+  async getLikes (state, likes) {
+    state.likes = likes
   },
-  async sendLike (state) {
+  async sendLike (state, like) {
     try {
       await userService.sendLike(state.likeToAdd)
+      state.addedLike = like
     } catch (error) {
       state.onError = true
     }
@@ -56,7 +58,7 @@ const actions = {
   like ({ commit }, like) {
     try {
       commit('setLike', like)
-      commit('sendLike')
+      commit('sendLike', Object) // On envoie un objet vide pour faciliter les tests
     } catch (error) {
       commit('setOnError', true)
     }
@@ -68,10 +70,11 @@ const actions = {
       commit('setOnError', true)
     }
   },
-  initializeLikes ({ commit }, profileId) {
+  async initializeLikes ({ commit }, profileId) {
     if (profileId !== '') {
       commit('setProfileId', profileId)
-      commit('getLikes', profileId)
+      const likes = await userService.getLikes(profileId)
+      commit('getLikes', likes)
     } else {
       commit('setOnError', true)
     }

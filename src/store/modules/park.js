@@ -86,8 +86,6 @@ const actions = {
     try {
       const trail = await trailService.getTrailsId(id)
       const segmentsList = await trailService.getAllSegments(trail.segments)
-      // console.log(trail.segments)
-      // console.log(segmentsList)
       commit('STORE_TRAIL', trail)
       commit('STORE_SEGMENTS', trail.segments)
       commit('STORE_SEGLIST', segmentsList)

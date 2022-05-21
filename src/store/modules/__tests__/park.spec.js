@@ -16,19 +16,19 @@ let fakeLikesList
 
 jest.mock('@/services/trailService')
 beforeEach(() => {
-    fakeListPark = [...fakeParks] 
-    firstPark = { ...fakeParks[0] } 
-    fakeListTrail = [...fakeTrails]
-    firstTrail = { ...fakeTrails[0] }
-    fakeSegmentsList = [...fakeSegments]
-    firstSegment = { ...fakeSegments[0] }
-    fakeLikesList = [...fakeLikes]
-    trailService.getParks.mockResolvedValue(fakeListPark)
-    trailService.getTrails.mockResolvedValue(fakeListTrail)
-    trailService.getNbLikesAssociated.mockResolvedValue(fakeLikesList)
+  fakeListPark = [...fakeParks] 
+  firstPark = { ...fakeParks[0] } 
+  fakeListTrail = [...fakeTrails]
+  firstTrail = { ...fakeTrails[0] }
+  fakeSegmentsList = [...fakeSegments]
+  firstSegment = { ...fakeSegments[0] }
+  fakeLikesList = [...fakeLikes]
+  trailService.getParks.mockResolvedValue(fakeListPark)
+  trailService.getTrails.mockResolvedValue(fakeListTrail)
+  trailService.getNbLikesAssociated.mockResolvedValue(fakeLikesList)
 })
 
-describe('Posts store module', () => {
+describe('Pqrk store module', () => {
     describe('getters', () => {
       test('getSelectPark doit retourner le park choisi', async () => {
         const state = { selectedPark: firstPark}
@@ -122,6 +122,16 @@ describe('Posts store module', () => {
         expect(state.selectedTrail).toEqual(firstTrail)
       })
 
+      test("setOnError doit mettre l'état en erreur", async () => {
+        const state = {
+          onError: false
+        }
+  
+        parkStore.mutations.setOnError(state)
+  
+        expect(state.onError).toStrictEqual(true)
+      })
+    
       test('STORE_SEGMENTS sauvegarde la liste des ID des segments', () => {
         const state = { segments: [] }
         
@@ -174,6 +184,37 @@ describe('Posts store module', () => {
           
             expect(commit).toHaveBeenCalledWith('buildTrailList', fakeListTrail)
   
-          })
+        })
+
+        test('setPark peut être appelé',  () => {
+            const commit = jest.fn()
+
+            parkStore.actions.setPark({ commit }, firstPark)
+          
+            expect(commit).toHaveBeenCalledWith('STORE_PARK', firstPark)  
+        })
+
+        test('setTrail peut être appelé',  async () => {
+            const commit = jest.fn()
+            
+            await trailService.getTrailsId.mockResolvedValue(firstTrail)
+            await trailService.getAllSegments.mockResolvedValue(fakeSegmentsList)
+            await parkStore.actions.setTrail({ commit }, firstTrail)
+            await flushPromises()
+
+            expect(trailService.getTrailsId).toHaveBeenCalled()
+            expect(trailService.getAllSegments).toHaveBeenCalled
+            expect(commit).toHaveBeenCalledWith('STORE_TRAIL', firstTrail)
+            expect(commit).toHaveBeenCalledWith('STORE_SEGMENTS', firstTrail.segments)
+            expect(commit).toHaveBeenCalledWith('STORE_SEGLIST', fakeSegmentsList)
+        })
+
+        test('getLikesAssociated peut être appelé',  () => {
+            const commit = jest.fn()
+
+            parkStore.actions.getLikesAssociated({ commit })
+          
+            expect(commit).toHaveBeenCalledWith('COMPUTE_LIKES_ASSOCIATED')  
+        })
     })
 })
