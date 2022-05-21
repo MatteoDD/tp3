@@ -14,18 +14,18 @@
           </select>
       </div>
       <div class="Like">
-        <p>Park: {{parkSelect.name}}</p>
-        <p>Trail : {{getSelectedTrail.name}}</p>
-        <p>Amount of likes on this trail : {{ getnbOfLikeAssociatedWithTrail }}</p>
+        <p>{{ this.PARK_LABEL }} {{parkSelect.name}}</p>
+        <p>{{ this.TRAIL_LABEL }} {{getSelectedTrail.name}}</p>
+        <p>{{ this.AMOUNT_OF_LIKE_LABEL }} {{ getnbOfLikeAssociatedWithTrail }}</p>
         <l-map style=" width: 600px; height:300px" :zoom="zoom" :center="center">
             <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
             <l-polyline v-for="seg in getSegList" v-bind:key="seg.id" :lat-lngs="seg.coordinates" :color="difficultySwitch(seg.level)"></l-polyline>
           </l-map>
-        <button class="btn btn-outline-danger" @click="setLikeToTrail" v-if="!isAlreadyLiked">Like
+        <button class="btn btn-outline-danger" @click="setLikeToTrail" v-if="!isAlreadyLiked">{{ this.LIKE_LABEL }}
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
           <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
           </svg></button>
-        <button @click="deleteLikeToTrail" class="btn btn-outline-danger" v-else>Dislike
+        <button @click="deleteLikeToTrail" class="btn btn-outline-danger" v-else>{{ this.DISLIKE_LABEL }}
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
         </svg>
@@ -39,6 +39,7 @@
 
 <script>
 import { LMap, LTileLayer, LPolyline } from 'vue2-leaflet'
+import ui from '@/externalization/uiTextPlugin'
 export default {
   components: {
     LMap,
@@ -58,7 +59,12 @@ export default {
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 15,
-      center: [46.78601339822761, -71.28621784239412]
+      center: [46.78601339822761, -71.28621784239412],
+      PARK_LABEL: ui.PARK_LABEL,
+      TRAIL_LABEL: ui.TRAIL_LABEL,
+      AMOUNT_OF_LIKE_LABEL: ui.AMOUNT_OF_LIKE_LABEL,
+      LIKE_LABEL: ui.LIKE_LABEL,
+      DISLIKE_LABEL: ui.DISLIKE_LABEL
     }
   },
   methods: {

@@ -7,7 +7,7 @@
           class="form-control"
           id="name"
           name="name"
-          placeholder="Nom"
+          v-bind:placeholder="this.NAME_LABEL"
           v-model="newProfile.name"
         /><br />
         <input
@@ -16,23 +16,24 @@
           id="email"
           name="email"
           v-model="newProfile.email"
-          placeholder="courriel@courriel.com"
+          v-bind:placeholder="this.EMAIL_LABEL"
         /><br />
         <input
           type="text"
           class="form-control"
           id="password"
           name="password"
-          placeholder="********"
+          v-bind:placeholder="this.PASSWORD_LABEL"
           v-model="newProfile.password"
         /><br />
-        <button type="button" @click="signup" class="btn btn-primary">S 'enregistrer</button>
+        <button type="button" @click="signup" class="btn btn-primary">{{ this.REGISTER_LABEL }}</button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import ui from '@/externalization/uiTextPlugin'
 export default {
   name: 'SignupComponent',
   data () {
@@ -41,7 +42,11 @@ export default {
         email: '',
         password: '',
         name: ''
-      }
+      },
+      NAME_LABEL: ui.NAME_LABEL,
+      PASSWORD_LABEL: ui.PASSWORD_LABEL,
+      EMAIL_LABEL: ui.EMAIL_LABEL,
+      REGISTER_LABEL: ui.REGISTER_LABEL
     }
   },
   methods: {

@@ -7,25 +7,27 @@
           class="form-control"
           id="email"
           name="email"
-          placeholder="courriel@courriel.com"
+          v-bind:placeholder="this.EMAIL_LABEL"
           v-model="newProfile.email"
         /><br />
+        <!-- mettre le type en password -->
         <input
           type="text"
           class="form-control"
           id="password"
           name="password"
-          placeholder="********"
+          v-bind:placeholder="this.PASSWORD_LABEL"
           v-model="newProfile.password"
         /><br />
-        <button type="button" class="btn btn-primary" @click="login">Se connecter</button>
+        <button type="button" class="btn btn-primary" @click="login">{{ this.LOGIN_BUTTON_LABEL }}</button>
       </form>
       <br />
-      <router-link to="/signup">Créer  un compte</router-link>
+      <router-link to="/signup">{{ this.REGISTER_BUTTON_LABEL }}</router-link>
     </div>
   </div>
 </template>
 <script>
+import ui from '@/externalization/uiTextPlugin'
 export default {
   name: 'LoginComponent',
   data () {
@@ -33,7 +35,11 @@ export default {
       newProfile: {
         email: '',
         password: ''
-      }
+      },
+      EMAIL_LABEL: ui.EMAIL_LABEL,
+      PASSWORD_LABEL: ui.PASSWORD_LABEL,
+      LOGIN_BUTTON_LABEL: ui.LOGIN_BUTTON_LABEL,
+      REGISTER_BUTTON_LABEL: ui.REGISTER_BUTTON_LABEL
     }
   },
   created () {

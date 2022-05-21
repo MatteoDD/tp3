@@ -29,7 +29,7 @@ export default [
       import(/* webpackChunkName: "Pointage" */ '../views/Logout.vue')
   },
   {
-    path: '/admin',
+    path: '/admin32323232',
     name: 'Admin',
     component: () =>
       import(/* webpackChunkName: "secret" */ '../views/AdminP.vue')
