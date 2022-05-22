@@ -19,7 +19,7 @@
           v-bind:placeholder="this.PASSWORD_LABEL"
           v-model="newProfile.password"
         /><br />
-        <button type="button" class="btn btn-primary" @click="login">{{ this.LOGIN_BUTTON_LABEL }}</button>
+        <button id="button" type="button" class="btn btn-primary" @click="login">{{ this.LOGIN_BUTTON_LABEL }}</button>
       </form>
       <br />
       <router-link to="/signup">{{ this.REGISTER_BUTTON_LABEL }}</router-link>
@@ -39,7 +39,8 @@ export default {
       EMAIL_LABEL: ui.EMAIL_LABEL,
       PASSWORD_LABEL: ui.PASSWORD_LABEL,
       LOGIN_BUTTON_LABEL: ui.LOGIN_BUTTON_LABEL,
-      REGISTER_BUTTON_LABEL: ui.REGISTER_BUTTON_LABEL
+      REGISTER_BUTTON_LABEL: ui.REGISTER_BUTTON_LABEL,
+      ERROR_MESSAGE: ui.ERROR_MESSAGE_2
     }
   },
   created () {

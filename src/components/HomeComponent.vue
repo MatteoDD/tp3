@@ -64,7 +64,8 @@ export default {
       TRAIL_LABEL: ui.TRAIL_LABEL,
       AMOUNT_OF_LIKE_LABEL: ui.AMOUNT_OF_LIKE_LABEL,
       LIKE_LABEL: ui.LIKE_LABEL,
-      DISLIKE_LABEL: ui.DISLIKE_LABEL
+      DISLIKE_LABEL: ui.DISLIKE_LABEL,
+      ERROR_MESSAGE: ui.ERROR_MESSAGE
     }
   },
   methods: {
@@ -126,7 +127,7 @@ export default {
     isValid () {
       if (this.isLoggedIn) {
         if (!this.isValidUser) {
-          this.$bvModal.msgBoxOk('veillez vous reconnecter, connection expirer', {
+          this.$bvModal.msgBoxOk(this.ERROR_MESSAGE, {
             okTitle: 'logout',
             centered: true,
             okVariant: 'success'
