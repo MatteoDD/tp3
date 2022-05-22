@@ -9,15 +9,15 @@ export const uiTextPlugin = {
   LOGIN_ROUTE_LABEL: ' Login |',
   SIGNUP_ROUTE_LABEL: ' Signup ',
   LOGOUT_ROUTE_LABEL: ' Déconnexion',
-  SECRET_ADMIN_ROUTE_LABEL: ' ||||| Admin ||||',
+  SECRET_ADMIN_ROUTE_LABEL: ' || Admin ||',
   EMAIL_LABEL: 'courriel@courriel.com',
   PASSWORD_LABEL: '********',
   LOGIN_BUTTON_LABEL: 'Se connecter',
-  REGISTER_BUTTON_LABEL: 'Créer  un compte',
+  REGISTER_BUTTON_LABEL: 'Créer un compte',
   NAME_LABEL: 'Nom',
   REGISTER_LABEL: 'S\'enregistrer',
-  SECRET_TEXT: 'binvenu controleur de l\'app!',
-  SECRET_TIP: 'Vous pouvez accéder à la page d\'administration, voir dans dev tool la bd complette et users'
+  SECRET_TEXT: 'Admin Panel de l\'application!',
+  SECRET_TIP: 'Vous pouvez accéder à la page d\'administration, veuillez jeter un coup d\'oeil au devtool.'
 }
 
 // Plugin pour VueJs

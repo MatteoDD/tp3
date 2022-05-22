@@ -45,6 +45,7 @@ async function sendLike (like) {
 async function deleteLike (like) {
   try {
     const response = await requestInterceptor.delete(`${API}/api/likes/${like.likeId}`)
+    console.log(response.data)
     return response.data
   } catch (error) {
     throw parseAxiosErrorToAppError(error)

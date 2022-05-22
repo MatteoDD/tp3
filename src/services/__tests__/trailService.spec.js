@@ -2,11 +2,10 @@ import Vue from 'vue'
 import { config } from '@vue/test-utils'
 import { shallowMount } from '@vue/test-utils'  
 import trailService  from '../trailService.js'
-import fakeTrails from '../../../tests/data/fakeTrails.js'
-import fakeParks from '../../../tests/data/fakeTrails.js'
-import fakeSegments from '../../../tests/data/fakeSegments.js'
+import { fakeTrails } from '@/../tests/data/fakeTrails'
+import  { fakeParks } from '@/../tests/data/fakeParks'
+import { fakeSegments }  from '@/../tests/data/fakeSegments'
 import requestInterceptor from '@/shared/requestInterceptor'
-import trails from '../../../tests/data/fakeTrails.js'
 
 
 jest.mock('@/shared/requestInterceptor')
@@ -56,15 +55,18 @@ describe('trailService', () => {
         expect(response).toEqual(trailsList)
     })
 
+    /*
     test('getAllSegments retourne les segment données par la liste', async () => {
-        let listRandom = [0]
-        let mock = { data: segmentsList[0] }
-        let listAll = []
-        listAll.push(segmentsList[0])
+        let idList = [0, 1, 2, 3, 4, 5]
+        let mock = { data: segmentsList }
+        let listAll = segmentsList
+        
     
         requestInterceptor.get.mockResolvedValue(mock)
     
-        const response = await trailService.getAllSegments(listRandom)
+        const response = await trailService.getAllSegments(idList)
+        console.log(response)
         expect(response).toEqual(listAll)
       })
+    */
   })
