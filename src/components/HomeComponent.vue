@@ -51,6 +51,11 @@ export default {
     this.$store.dispatch('park/initializeTrails')
     this.isValid()
   },
+  mounted () {
+    console.log('mounted')
+    this.$store.dispatch('park/resetPark')
+    this.center = [46.78601339822761, -71.28621784239412]
+  },
   data () {
     return {
       trailSelect: '',
@@ -65,7 +70,8 @@ export default {
       AMOUNT_OF_LIKE_LABEL: ui.AMOUNT_OF_LIKE_LABEL,
       LIKE_LABEL: ui.LIKE_LABEL,
       DISLIKE_LABEL: ui.DISLIKE_LABEL,
-      ERROR_MESSAGE: ui.ERROR_MESSAGE
+      ERROR_MESSAGE: ui.ERROR_MESSAGE,
+      ERROR_LIKE: ui.ERROR_LIKE
     }
   },
   methods: {
@@ -86,8 +92,14 @@ export default {
       if (this.isLoggedIn) {
         setTimeout(() => {
           this.refreshLikes()
-        }, 1115)
+        }, 2115)
         this.$store.dispatch('likes/like', this.newLike)
+      } else {
+        this.$bvModal.msgBoxOk(this.ERROR_LIKE, {
+          okTitle: 'ok',
+          centered: true,
+          okVariant: 'success'
+        })
       }
     },
     deleteLikeToTrail () {
@@ -96,6 +108,7 @@ export default {
           this.refreshLikes()
           this.$store.dispatch('likes/initializeLikes', this.profileId)
         })
+        this.refreshLikes()
       }
     },
     refreshLikes () {

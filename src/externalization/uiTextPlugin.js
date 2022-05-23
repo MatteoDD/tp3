@@ -19,7 +19,8 @@ export const uiTextPlugin = {
   SECRET_TEXT: 'Admin Panel de l\'application!',
   SECRET_TIP: 'Vous pouvez accéder à la page d\'administration, veuillez jeter un coup d\'oeil au devtool.',
   ERROR_MESSAGE: 'veillez vous reconnecter, connection expirer',
-  ERROR_MESSAGE_2: 'veillez reessayer'
+  ERROR_MESSAGE_2: 'veillez reessayer',
+  ERROR_LIKE: 'veillez vous connecter pour liker'
 }
 
 // Plugin pour VueJs

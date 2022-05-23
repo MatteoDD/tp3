@@ -99,6 +99,12 @@ const actions = {
     } catch (error) {
       commit('setOnError')
     }
+  },
+  resetPark ({ commit }) {
+    commit('STORE_PARK', {})
+    commit('STORE_TRAIL', {})
+    commit('STORE_SEGMENTS', {})
+    commit('STORE_SEGLIST', {})
   }
 }
 

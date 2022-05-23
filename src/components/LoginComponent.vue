@@ -10,9 +10,8 @@
           v-bind:placeholder="this.EMAIL_LABEL"
           v-model="newProfile.email"
         /><br />
-        <!-- mettre le type en password -->
         <input
-          type="text"
+          type="password"
           class="form-control"
           id="password"
           name="password"
@@ -55,6 +54,14 @@ export default {
       if (this.isLogged) {
         this.$store.dispatch('profiles/getProfile')
         this.$router.push('/')
+      } else {
+        this.$store.dispatch('profiles/resetProfile')
+        this.$store.dispatch('profiles/setError', this.ERROR_MESSAGE)
+        this.$bvModal.msgBoxOk('erreur dans la connection', {
+          okTitle: 'ok',
+          centered: true,
+          okVariant: 'success'
+        })
       }
     }
   },
