@@ -13,6 +13,6 @@ git init
 git add -A
 git commit -m 'deploy'
 
-git push -f git@github.com:MatteoDD/tp3.github.io.git main:deploy
+git push -f https://github.com/MatteoDD/tp3 main:deploy
 
 cd -

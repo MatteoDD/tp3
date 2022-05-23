@@ -11,7 +11,7 @@
     "backend": "json-server-auth --watch ./backend/db.json --routes ./backend/routes.json",
     "dev": "concurrently --raw \"pnpm backend\" \"pnpm serve\"",
     "generate": "node ./backend/generate/generateDbJson.js",
-    "deploy": "sh ./deploy.sh"
+    "deploy": "deploy.sh"
   },
   "dependencies": {
     "axios": "^0.26.1",
