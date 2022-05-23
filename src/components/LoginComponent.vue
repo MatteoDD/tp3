@@ -19,7 +19,7 @@
           v-bind:placeholder="this.PASSWORD_LABEL"
           v-model="newProfile.password"
         /><br />
-        <button id="button" type="button" class="btn btn-primary" @click="login">{{ this.LOGIN_BUTTON_LABEL }}</button>
+        <button id="button" type="button" class="btn-primary" @click="login">{{ this.LOGIN_BUTTON_LABEL }}</button>
       </form>
       <br />
       <router-link to="/signup">{{ this.REGISTER_BUTTON_LABEL }}</router-link>

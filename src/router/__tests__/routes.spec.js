@@ -28,7 +28,13 @@ beforeEach(() => {
   // mount VS shallowMount
   wrapper = mount(App, {
     localVue,
-    router
+    router,
+    computed: {
+      logged: function() {
+        return true
+      }
+    },
+    created:
   })
 })
 
