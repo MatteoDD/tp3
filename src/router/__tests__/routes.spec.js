@@ -1,10 +1,15 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import App from '@/App.vue'
 import VueRouter from 'vue-router'
-import { routes } from '../routes'
-import HomeComponent from '@/components/HomeComponent.vue'
-import LoginComponent from '@/components/LoginComponent.vue'
-import SignupComponent from '@/components/SignupComponent.vue'
+import routes from '../routes.js'
+import Vuex from 'vuex'
+import Vue from 'vue'
+import HomeComponent from '@/views/Home.vue'
+import LoginComponent from '@/views/Login.vue'
+import SignupComponent from '@/views/Signup.vue'
+import Admin from '@/views/AdminP.vue'
+import PageNotFound from '@/views/PageNotFound.vue'
+import Logout from '@/views/Logout.vue'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
@@ -15,26 +20,38 @@ jest.mock('@/views/Login.vue', () => ({
 jest.mock('@/views/Home.vue', () => ({
   render: () => ''
 }))
+jest.mock('@/views/AdminP.vue', () => ({
+  render: () => ''
+}))
+jest.mock('@/views/Logout.vue', () => ({
+  render: () => ''
+}))
+jest.mock('@/views/PageNotFound.vue', () => ({
+  render: () => ''
+}))
 jest.mock('@/views/Signup.vue', () => ({
   render: () => ''
 }))
 
 let wrapper
 let router
-
+let getters
+let store
+Vue.use(Vuex)
 beforeEach(() => {
   router = new VueRouter({ routes, mode: 'abstract' })
+  getters = {
+    logged: () => true,
+    isAdmin: () => true
+  }
+  store = new Vuex.Store({
+    getters
+  })
 
-  // mount VS shallowMount
   wrapper = mount(App, {
     localVue,
     router,
-    computed: {
-      logged: function() {
-        return true
-      }
-    },
-    created:
+    store
   })
 })
 
@@ -54,5 +71,23 @@ describe('routes.js', () => {
     await router.push('/signup')
 
     expect(wrapper.findComponent(SignupComponent).exists()).toBe(true)
+  })
+
+  test('/logout doit afficher la page logout.', async () => {
+    await router.push('/logout')
+
+    expect(wrapper.findComponent(Logout).exists()).toBe(true)
+  })
+
+  test('/admin doit afficher la page admin.', async () => {
+    await router.push('/admin')
+
+    expect(wrapper.findComponent(Admin).exists()).toBe(true)
+  })
+
+  test('/* doit afficher la PageNotFound.', async () => {
+    await router.push('/ooooooooo')
+
+    expect(wrapper.findComponent(PageNotFound).exists()).toBe(true)
   })
 })
